@@ -25,7 +25,7 @@ add 'localhost'.
 http2 uses a new protocol ALPN that isn't natively available for JDK 8 and 9.
 So, it's necessary to find the right extension. Go to this page([alpn]):
 
-http://www.eclipse.org/jetty/documentation/current/alpn-chapter.html
+http://www.eclipse.org/jetty/documentation/current/alpn-chapter.html#alpn-versions
 
 On the page you can find Java versions and their corresponding alpn-boot
 versions. When found, get the version number.
