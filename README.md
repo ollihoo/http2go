@@ -1,6 +1,6 @@
 # http2go
 
-This project is a test to evaluate how to get http2 running. This is the setup:
+This project is an evaluation how to get http2 running in the following setup:
 
 * Spring Boot
 * Undertow
@@ -13,8 +13,9 @@ In directory /src/main/resources you will find a keystore.jks. It's a self-signe
 keypair that is necessary for this server get running.
 
 Do this command to get your own key:
-
+```
 keytool -genkeypair -alias mycert -keyalg RSA -sigalg SHA256withRSA -keystore keystore.jks -storepass secret -keypass secret -validity 9999
+```
 
 If you change user and password, also change entries in application.properties.
 You will be asked for several values. In field for "first and last name",
@@ -41,8 +42,9 @@ Search Application.groovy and create a "Run" configuration. When done,
 add the following paramater to VM options. ATTENTION. I use JDK 1.8.0_65,
 so alpn-boot-8.1.6.v20151105.jar is the right version (see above!!):
  
- -Xbootclasspath/p:./alpn-boot-8.1.6.v20151105.jar
-
+``` 
+-Xbootclasspath/p:./alpn-boot-8.1.6.v20151105.jar
+```
 
 ## Start Application
 When done, start https://localhost:8443 . Since the certificate has been
