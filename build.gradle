@@ -32,8 +32,11 @@ dependencies {
   compile("org.springframework.boot:spring-boot-starter-undertow")
   compile("org.mortbay.jetty.alpn:alpn-boot:8.1.6.v20151105")
 
+  compile("org.springframework.boot:spring-boot-starter-thymeleaf")
   compile("org.springframework.boot:spring-boot-starter-actuator")
   compile("org.codehaus.groovy:groovy-all:2.4.7")
+  testCompile("org.spockframework:spock-core:1.0-groovy-2.4")
+  testCompile("cglib:cglib-nodep:3.2.4")
   testCompile("junit:junit")
 }
 

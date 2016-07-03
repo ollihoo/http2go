@@ -13,23 +13,6 @@ import org.springframework.context.annotation.ComponentScan
 @ComponentScan("de.ollihoo")
 class Application {
 
-    @Bean
-    UndertowEmbeddedServletContainerFactory embeddedServletContainerFactory() {
-        UndertowEmbeddedServletContainerFactory factory = new UndertowEmbeddedServletContainerFactory()
-        UndertowBuilderCustomizer customizer = createCustomizerWithHttp2()
-        factory.addBuilderCustomizers(customizer)
-        factory
-    }
-
-    private UndertowBuilderCustomizer createCustomizerWithHttp2() {
-        new UndertowBuilderCustomizer() {
-            @Override
-            void customize(Undertow.Builder builder) {
-                builder.setServerOption(UndertowOptions.ENABLE_HTTP2, true)
-            }
-        }
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args)
     }
