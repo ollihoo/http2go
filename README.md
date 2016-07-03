@@ -23,7 +23,7 @@ add 'localhost'.
 
 ## Select right alpn bootstrap version for JDK 7 and 8
 http2 uses a new protocol ALPN that isn't natively available for JDK 8 and 9.
-So, it's necessary to find the right extension. Go to this page([alpn]):
+So, it's necessary to find the right extension. Go to this page:
 
 http://www.eclipse.org/jetty/documentation/current/alpn-chapter.html#alpn-versions
 
@@ -36,20 +36,55 @@ directory in YOUR USER DIRECTORY, search for alpn-boot and copy the right
 jar in this project root directory.
 
 ## Start application
-I use IntelliJ, so I explain it how to start it here.
+The ALPN  implementation needs to be injected during VM start. It is done
+by a command for java:
 
-Search Application.groovy and create a "Run" configuration. When done,
-add the following paramater to VM options. ATTENTION. I use JDK 1.8.0_65,
-so alpn-boot-8.1.6.v20151105.jar is the right version (see above!!):
- 
 ``` 
 -Xbootclasspath/p:./alpn-boot-8.1.6.v20151105.jar
 ```
 
-## Start Application
+ATTENTION. I use JDK 1.8.0_65, so alpn-boot-8.1.6.v20151105.jar is the
+right version. I put the jar into the root of this project. So I can use
+ the path ./ here. Please adapt this to your needs.
+
+### in IntelliJ
+I use IntelliJ, search Application.groovy and create a "Run" configuration.
+When done, add the following paramater into field 'VM options'. 
+ 
+``` 
+bootclasspath/p:...
+```
+
+### on command line
+Go to the root of this project and do
+
+```
+gradle build
+```
+
+Do this command
+
+```
+java -Xbootclasspath/p:./alpn-boot-8.1.6.v20151105.jar -jar build/libs/http2go-0.1.0.jar
+```
+
+### Check in browser
 When done, start https://localhost:8443 . Since the certificate has been
 self-signed, you will get some warnings. Clarify them by load certificate
-anyway. When done, you should see "Welcome". Hooray, it's done.
+anyway. When done, you should see a welcome page. 
+
+Attention: undertow implements some fallback mechanisms. In the case, the correct alpn
+configuration hasn't been found, it switches back to https via HTTP1/1.
+
+To verify to use HTTP2, check the headers and search for elements like this (this is
+what Firefox shows):
+
+```
+HTTP/2.0 200 OK
+X-Firefox-Spdy: h2
+```
+
+This application is ready to communicate via HTTP2.
 
 # References
 * [alpn] http://www.eclipse.org/jetty/documentation/current/alpn-chapter.html
