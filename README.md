@@ -52,7 +52,7 @@ I use IntelliJ, search Application.groovy and create a "Run" configuration.
 When done, add the following paramater into field 'VM options'. 
  
 ``` 
-bootclasspath/p:...
+-Xbootclasspath/p:...
 ```
 
 ### on command line
