@@ -7,11 +7,11 @@ buildscript {
   }
 }
 
+apply plugin: 'spring-boot'
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'spring-boot'
 
 jar {
   baseName = 'http2go'
@@ -30,7 +30,7 @@ dependencies {
     exclude module: "spring-boot-starter-tomcat"
   }
   compile("org.springframework.boot:spring-boot-starter-undertow")
-  compile("org.mortbay.jetty.alpn:alpn-boot:8.1.6.v20151105")
+  compile("org.mortbay.jetty.alpn:alpn-boot:8.1.7.v20160121")
 
   compile("org.springframework.boot:spring-boot-starter-thymeleaf")
   compile("org.springframework.boot:spring-boot-starter-actuator")
@@ -38,6 +38,22 @@ dependencies {
   testCompile("org.spockframework:spock-core:1.0-groovy-2.4")
   testCompile("cglib:cglib-nodep:3.2.4")
   testCompile("junit:junit")
+}
+
+task dockerPrepare {
+  dependsOn 'build'
+  new File('build/docker').mkdirs()
+  copy {
+    from 'src/main/docker/Dockerfile'
+    from 'src/deliver/resources/alpn-boot-8.1.7.v20160121.jar'
+    from 'build/libs/http2go-0.1.0.jar'
+    into 'build/docker'
+  }
+}
+
+task dockerBuild(type: Exec) {
+  dependsOn 'dockerPrepare'
+  commandLine 'docker', 'build', '-t', 'ollihoo/http2go:latest', './build/docker'
 }
 
 task wrapper(type: Wrapper) {
