@@ -1,0 +1,6 @@
+version: '2'
+services:
+  web:
+    image: ollihoo/http2go:latest
+    ports:
+      - "443:8443"
