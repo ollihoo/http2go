@@ -46,13 +46,13 @@ task dockerPrepare {
   copy {
     from 'src/main/docker/Dockerfile'
     from 'src/deliver/resources/alpn-boot-8.1.7.v20160121.jar'
+    from 'src/deliver/resources/application.properties'
     from 'build/libs/http2go-0.1.0.jar'
     into 'build/docker'
   }
 }
 
-task dockerBuild(type: Exec) {
-  dependsOn 'dockerPrepare'
+task dockerBuild(type: Exec, dependsOn: 'dockerPrepare') {
   commandLine 'docker', 'build', '-t', 'ollihoo/http2go:latest', './build/docker'
 }
 
