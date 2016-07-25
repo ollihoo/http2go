@@ -38,6 +38,7 @@ dependencies {
     testCompile("org.spockframework:spock-core:1.0-groovy-2.4")
     testCompile("cglib:cglib-nodep:3.2.4")
     testCompile("junit:junit")
+    testCompile('com.squareup.okhttp3:okhttp:3.4.1')
 }
 
 task dockerPrepare(type: Copy) {
@@ -53,6 +54,10 @@ task dockerPrepare(type: Copy) {
 task dockerBuild(type: Exec) {
     dependsOn 'dockerPrepare'
     commandLine 'docker', 'build', '-t', 'ollihoo/http2go:latest', './build/docker'
+}
+
+task dockerPush(type: Exec) {
+    commandLine 'docker', 'push', 'ollihoo/http2go:latest'
 }
 
 task wrapper(type: Wrapper) {
